@@ -192,6 +192,23 @@ class FormController extends Controller
         \DB::beginTransaction();
         try {
 
+           
+            
+            $this->validate($request, [
+                'fname' => 'required',
+                'lname' => 'required',
+                'phone' => 'required',
+                 'gender' => 'required',
+                 'hall' => 'required',
+                'firstChoice' => 'required',
+                'secondChoice' => 'required',
+                'gname' => 'required',
+                'gphone' => 'required',
+                'session' => 'required',
+                 'thirdChoice' => 'required',
+                 'address' => 'required',
+                'hometown' => 'required',
+            ]);
 
             $applicantForm = @\Auth::user()->FORM_NO;
  
@@ -417,7 +434,7 @@ class FormController extends Controller
                 if(empty($applicantNO)){
                            $sql =\DB::table('tbl_form_number')->get();
                             $new_formNo = $sql[0]->FORM_NO;
-                            $formNo = "TP" . date("Y") . $new_formNo;
+                            $formNo = "TPOLY" . date("Y") . $new_formNo;
                              User::where("ID", $applicantID)->update(
                                     array(
                                         "FORM_NO" => $formNo,

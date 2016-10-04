@@ -268,6 +268,7 @@ class SystemController extends Controller {
                      
                    $sms->save();
                    \DB::commit();
+                   return redirect("/logout");
                } catch (\Exception $e) {
                 \DB::rollback();
             }

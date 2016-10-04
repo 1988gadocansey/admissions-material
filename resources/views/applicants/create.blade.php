@@ -60,15 +60,15 @@
                                                         <div class="row">
                                                             <div class="input-field col m6 s12">
                                                                 <label for="firstName">First name</label>
-                                                                <input id="firstName" name="fname" type="text" value="{{$data->FIRSTNAME}}" class="required validate">
+                                                                <input id="firstName" name="fname" type="text" value="{{@$data->FIRSTNAME}}" class="required validate">
                                                             </div>
                                                             <div class="input-field col m6 s12">
                                                                 <label for="lastName">Last name</label>
-                                                                <input id="lastName" name="lname" value="{{$data->SURNAME}}" type="text" class="required validate">
+                                                                <input id="lastName" name="lname" value="{{@$data->SURNAME}}" type="text" class="required validate">
                                                             </div>
                                                             <div class="input-field col s12">
                                                                 <label for="email">Othernames</label>
-                                                                <input id="oname" name="othernames" value="{{$data->OTHERNAME}}" type="text" class="">
+                                                                <input id="oname" name="othernames" value="{{@$data->OTHERNAME}}" type="text" class="">
                                                             </div>
                                                             <div class="input-field col s12">
                                                                 <div class="input-field col m6 s12">
@@ -85,7 +85,7 @@
                                                     <div class="col m6">
                                                         <div class="row">
                                                             <div class="input-field col m6 s12">
-                                                        {!!   Form::select('title',array("Mr"=>"Mr","Mrs"=>"Mrs","Miss"=>"Miss"),old($data->TITLE,''),array('placeholder'=>'Select title',"required"=>"required", "tabindex"=>"-1","v-model"=>"title","v-form-ctrl"=>"","id"=>"basic"))  !!}
+                                                        {!!   Form::select('title',array("Mr"=>"Mr","Mrs"=>"Mrs","Miss"=>"Miss"),old(@$data->TITLE,''),array('placeholder'=>'Select title',"required"=>"required", "tabindex"=>"-1","v-model"=>"title","v-form-ctrl"=>"","id"=>"basic"))  !!}
                                                             </div>
                                                              <div class="input-field col m6 s12">
                                                         {!!   Form::select('gender',array("Male"=>"Male","Female"=>"Female"),old('gender',''),array('placeholder'=>'Select gender',"required"=>"required", "tabindex"=>"-1","v-model"=>"gender","v-form-ctrl"=>"","v-select"=>"gender","style"=>"width: 100%"))  !!}
@@ -100,10 +100,10 @@
                                                             </div>
                                                             <div class="input-field col s12">
                                                                 <label for="phone">Phone number</label>
-                                                                <input id="phone" name="phone" minlength="10" pattern='^[0-9]{10}$'  value="{{$data->PHONE}}"  maxlength="10"type="number" class="required validate">
+                                                                <input id="phone" name="phone" minlength="10" pattern='^[0-9]{10}$'  value="{{@$data->PHONE}}"  maxlength="10"type="number" class="required validate">
                                                             </div>
                                                             <div class="input-field col s12">
-                                                            {!!   Form::select('session',array("Regular"=>"Regular","Weekend"=>"Weekend","Evening"=>"Evening"),old('session',''),array('placeholder'=>'Select session preference',"required"=>"required", "tabindex"=>"-1",))  !!}
+                                                            {!!   Form::select('session',array("Regular"=>"Regular","Weekend"=>"Weekend","Evening"=>"Evening"),old('session',''),array('placeholder'=>'Select session preference',"required"=>"required", "tabindex"=>"-1"))  !!}
                                                            
                                                             </div>
                                                         
@@ -120,15 +120,15 @@
                                                         <div class="row">
                                                             <div class="input-field col m6 s12">
                                                                 <label for="firstName">Hometown</label>
-                                                                <input id="s" name="hometown" type="text" value="{{$data->HOMETOWN}}"class="required validate">
+                                                                <input id="s" name="hometown" type="text" value="{{@$data->HOMETOWN}}"class="required validate">
                                                             </div>
                                                             <div class="input-field col m6 s12">
                                                                 <label for="lastName">Contact Address</label>
-                                                                <input id="contact" name="contact" type="text" value="{{$data->ADDRESS}}" class="required validate">
+                                                                <input id="contact" name="contact" type="text" value="{{@$data->ADDRESS}}" class="required validate">
                                                             </div>
                                                             <div class="input-field col m6 s12">
                                                                 <label for="firstName">Home Address</label>
-                                                                <input id="address" name="address" type="text" value="{{$data->RESIDENTIAL_ADDRESS}}" class="required validate">
+                                                                <input id="address" name="address" type="text" value="{{@$data->RESIDENTIAL_ADDRESS}}" class="required validate">
                                                             </div>
                                                             <div class="input-field col s12">
                                                                {!!   Form::select('religion',$religion,old('religion',''),array("required"=>"required", "tabindex"=>"-1", "v-model"=>"religion","v-form-ctrl"=>"","style"=>"width: 100%","v-select"=>"religion")   )  !!}
@@ -136,7 +136,7 @@
                                                             <div class="input-field col s12">
                                                                 <div class="switch m-b-md">
                                                                     <label>
-                                                                        @if($data->BOND!="")
+                                                                        @if(@$data->BOND!="")
                                                                         <input type="checkbox" name="bond" value="Yes" checked="">
                                                                         @else
                                                                          <input type="checkbox" name="bond" value="Yes" >
@@ -164,7 +164,7 @@
                                                             </div>
                                                             <div class="input-field col m6 s12">
                                                                 <label for="city">Email</label>
-                                                                <input  id="email" name="email" type="email" value="{{$data->EMAIL}}" class="required validate">
+                                                                <input  id="email" name="email" type="email" value="{{@$data->EMAIL}}" class="required validate">
                                                             </div>
                                                             <div class="input-field col s12">
                                                             {!!   Form::select('disability',array("Yes"=>"Yes","No"=>"No"),old('disability',''),array('placeholder'=>'Select disability',"required"=>"required","tabindex"=>"-1"))  !!}
@@ -184,16 +184,16 @@
                                                         <div class="row">
                                                              <div class="input-field col s12">
                                                                 <label for="firstName">Guardian Name</label>
-                                                                <input id="gname" name="gname" type="text" value="{{$data->GURDIAN_NAME}}" class="required validate">
+                                                                <input id="gname" name="gname" type="text" value="{{@$data->GURDIAN_NAME}}" class="required validate">
                                                             </div>
                                                              <div class="input-field col s12">
                                                                 <label for="firstName">Guardian Address</label>
-                                                                <input id="gaddress" name="gaddress" type="text" value="{{$data->GURDIAN_ADDRESS}}" class="required validate">
+                                                                <input id="gaddress" name="gaddress" type="text" value="{{@$data->GURDIAN_ADDRESS}}" class="required validate">
                                                             </div>
                                                             
                                                             <div class="input-field col m6 s12">
                                                                 <label for="firstName">Source of Finance</label>
-                                                                <input id="finance" name="finance" type="text" value="{{$data->SOURCE_OF_FINANCE}}" class="required validate">
+                                                                <input id="finance" name="finance" type="text" value="{{@$data->SOURCE_OF_FINANCE}}" class="required validate">
                                                             </div>
                                                              
                                                              
@@ -203,17 +203,17 @@
                                                         <div class="row">
                                                            <div class="input-field col m6 s12">
                                                                 <label for="lastName">Relationship to Guardian</label>
-                                                                <input id="grelationship" name="grelationship" type="text" value="{{$data->RELATIONSHIP_TO_APPLICANT}}" class="required validate">
+                                                                <input id="grelationship" name="grelationship" type="text" value="{{@$data->RELATIONSHIP_TO_APPLICANT}}" class="required validate">
                                                             </div>
                                                              
                                                            <div class="input-field col m6 s12">
                                                                 <label for="firstName">Guardian Occupation</label>
-                                                                <input id="goccupation" name="goccupation" type="text" value="{{$data->GURDIAN_OCCUPATION}}"class="required validate">
+                                                                <input id="goccupation" name="goccupation" type="text" value="{{@$data->GURDIAN_OCCUPATION}}"class="required validate">
                                                             </div>
                                                             
                                                               <div class="input-field col  m6 s12">
                                                                 <label for="phone">Guardian Phone</label>
-                                                                <input id="gphone" name="gphone" minlength="10" pattern='^[0-9]{10}$' value="{{$data->GURDIAN_PHONE}}"   maxlength="10"type="number" class="required validate">
+                                                                <input id="gphone" name="gphone" minlength="10" pattern='^[0-9]{10}$' value="{{@$data->GURDIAN_PHONE}}"   maxlength="10"type="number" class="required validate">
                                                             </div>
                                                              
                                                         </div>
@@ -249,11 +249,11 @@
                                                              
                                                              <div class="input-field col m6 s12">
                                                                 <label for="firstName">Programme Study at school</label>
-                                                                <input id="programStudy" name="study_program" type="text" value="{{$data->PROGRAMME_STUDY}}" class="required validate">
+                                                                <input id="programStudy" name="study_program" type="text" value="{{@$data->PROGRAMME_STUDY}}" class="required validate">
                                                             </div>
                                                              <div class="input-field col m6 s12">
                                                                 <label for="firstName">Former SHS (School)</label>
-                                                                <input id="school" name="school" type="text" value="{{$data->SCHOOL}}" class="required validate">
+                                                                <input id="school" name="school" type="text" value="{{@$data->SCHOOL}}" class="required validate">
                                                             </div>
                                                              
                                                         </div>
@@ -291,7 +291,7 @@ Vue.directive('select', {
       })
       .on('change', function () {
         self.vm.$set(this.name,this.value)
-        Vue.set(self.vm.$data,this.name,this.value)
+        Vue.set(self.vm.$datab,this.name,this.value)
       })
   },
   update: function (newValue,oldValue) {
@@ -308,15 +308,15 @@ var vm = new Vue({
   ready : function() {
   },
  data : {
-   title:"<?php echo $data->TITLE ?>",
-  firstChoice:"<?php echo $data->FIRST_CHOICE ?>",
-  secondChoice:"<?php echo $data->SECOND_CHOICE ?>",
-   thirdChoice:"<?php echo $data->THIRD_CHOICE ?>",
-  gender:"<?php echo $data->GENDER?>",
-  nationality:"<?php echo $data->NATIONALITY ?>",
-  religion:"<?php echo $data->RELIGION ?>",
-  region:"<?php echo $data->REGION ?>",
-  qualification:"<?php echo $data->ENTRY_QUALIFICATION ?>",
+   title:"<?php echo @$data->TITLE ?>",
+  firstChoice:"<?php echo @$data->FIRST_CHOICE ?>",
+  secondChoice:"<?php echo @$data->SECOND_CHOICE ?>",
+   thirdChoice:"<?php echo @$data->THIRD_CHOICE ?>",
+  gender:"<?php echo @$data->GENDER?>",
+  nationality:"<?php echo @$data->NATIONALITY ?>",
+  religion:"<?php echo @$data->RELIGION ?>",
+  region:"<?php echo @$data->REGION ?>",
+  qualification:"<?php echo @$data->ENTRY_QUALIFICATION ?>",
   
   
     

@@ -3,7 +3,12 @@
 
 @section('style')
 <link rel="stylesheet" href="{!! url('public/assets/css/print.css') !!}" media="all">  
-
+<style>
+    .uppercase{
+        font-weight: bolder;
+        text-align: right;
+    }
+</style>
 @endsection
 @section('content')
 
@@ -104,11 +109,11 @@
                                     </td>
                                     <td>
                                 <tr>
-                                    <td class="uppercase" align="right"><strong>SESSION PREFERENCE &nbsp;
+                                    <td class="uppercased" align="right"><strong>SESSION PREFERENCE &nbsp;
                                             {!! strtoupper($student->SESSION_PREFERENCE) !!}</</td>
 
 
-                                    <td class="uppercase" align="right"><strong>PHYSICALLY DISABLED 
+                                    <td class="uppercased" align="right"><strong>PHYSICALLY DISABLED 
                                             {!! strtoupper($student->PHYSICALLY_DISABLED) !!}</strong></td>
 
                                 </tr>
@@ -126,12 +131,12 @@
                                     <td>
                                         <table>
                                             <tr>
-                                                <td class="uppercase" ><strong>HOMETOWN:</strong></td>
+                                                <td class="uppercases" ><strong>HOMETOWN:</strong></td>
                                                 <td class="capitalize">{!! strtoupper($student->HOMETOWN) !!}</td>
 
                                             </tr>
                                             <tr>
-                                                <td class="uppercase"><strong>CONTACT ADDRESS</strong></td>
+                                                <td class="uppercases" style=""><strong>CONTACT ADDRESS</strong></td>
                                                 <td class="capitalize">{!! strtoupper($student->ADDRESS) !!}</td>
 
                                             </tr>
@@ -141,12 +146,12 @@
                                     <td>
                                         <table>
                                             <tr>
-                                                <td class="uppercase"><strong>NATIONALITY</strong></td>
+                                                <td class="uppercases"><strong>NATIONALITY</strong></td>
                                                 <td class="capitalize">{!! strtoupper($student->COUNTRY )!!}</td>
 
                                             </tr>
                                             <tr>
-                                                <td class="uppercase"><strong>RELIGION</strong></td>
+                                                <td class="uppercases"><strong>RELIGION</strong></td>
                                                 <td class="capitalize">{!! strtoupper($student->RELIGION) !!}</td>
 
                                             </tr>
@@ -155,12 +160,12 @@
                                     <td>
                                         <table>
                                             <tr>
-                                                <td class="uppercase"  ><strong>RESIDENTIAL ADDRESS:</strong></td>
+                                                <td class="uppercases"  ><strong>RESIDENTIAL ADDRESS:</strong></td>
                                                 <td class="capitalize">{!! strtoupper($student->RESIDENTIAL_ADDRESS) !!}</td>
 
                                             </tr>
                                             <tr>
-                                                <td class="uppercase"  ><strong>HOMETOWN REGION</strong></td>
+                                                <td class="uppercases"  ><strong>HOMETOWN REGION</strong></td>
                                                 <td class="capitalize">{!! strtoupper($student->REGION) !!}</td>
 
                                             </tr>
@@ -171,13 +176,13 @@
                                     <td>
                                         <table>
                                             <tr>
-                                                <td class="uppercase"><strong>HALL</strong></td>
+                                                <td class="uppercases"><strong>HALL</strong></td>
                                                 <td class="capitalize">{!!strtoupper( $student->PREFERED_HALL) !!}</td>
 
 
                                             </tr>
                                             <tr>
-                                                <td class="uppercase"><strong>MARITAL STATUS</strong></td>
+                                                <td class="uppercases"><strong>MARITAL STATUS</strong></td>
                                                 <td class="capitalize">{!! strtoupper($student->MARITAL_STATUS) !!}</td>
 
                                             </tr>
@@ -238,12 +243,12 @@
                                         <table>
                                             <tr>
                                                 <td class="uppercase" ><strong>FIRST CHOICE:</strong></td>
-                                                <td class="capitalize">{!!$sys->getProgramName($student->FIRST_CHOICE) !!}</td>
+                                                <td class="capitalize">{!!strtoupper($sys->getProgramName($student->FIRST_CHOICE)) !!}</td>
 
                                             </tr>
                                             <tr>
                                                 <td class="uppercase"><strong>SECOND CHOICE</strong></td>
-                                                <td class="capitalize">{!! $sys->getProgramName($student->SECOND_CHOICE) !!}</td>
+                                                <td class="capitalize">{!! strtoupper($sys->getProgramName($student->SECOND_CHOICE)) !!}</td>
 
                                             </tr>
 
