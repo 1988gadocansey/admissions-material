@@ -39,8 +39,8 @@
 </div>
 <main class="mn-inner container">
 <div class="row">
-    <div class="col s12">
-        <div class="page-title  "> Step 2 - Form Filling  | YOUR APPLICATION NUMBER  {{@\Auth::user()->FORM_NO}}</div>
+    <div class="col s12"> 
+        <div class="page-title  "> Step 2 - Form Filling  | YOUR APPLICATION NUMBER IS  {{@\Auth::user()->FORM_NO}}</div>
     </div>
     <div class="col s12 m12 l12">
         <div class="card hoverable">
@@ -103,8 +103,11 @@
                                                                 <input id="phone" name="phone" minlength="10" pattern='^[0-9]{10}$'  value="{{@$data->PHONE}}"  maxlength="10"type="number" class="required validate">
                                                             </div>
                                                             <div class="input-field col s12">
-                                                            {!!   Form::select('session',array("Regular"=>"Regular","Weekend"=>"Weekend","Evening"=>"Evening"),old('session',''),array('placeholder'=>'Select session preference',"required"=>"required", "tabindex"=>"-1"))  !!}
-                                                           
+                                                                @if(@Auth::user()->FORM_TYPE=='BTECH')
+                                                            {!!   Form::select('session',array( "Weekend"=>"Weekend"),old('session',''),array('placeholder'=>'Select session preference',"required"=>"required", "tabindex"=>"-1"))  !!}
+                                                                @else
+                                                                 {!!   Form::select('session',array("Regular"=>"Regular","Evening"=>"Evening"),old('session',''),array('placeholder'=>'Select session preference',"required"=>"required", "tabindex"=>"-1"))  !!}
+                                                                 @endif
                                                             </div>
                                                         
                                                         </div>
@@ -159,7 +162,7 @@
                                                              
                                                              </div>
                                                             <div class="input-field col  s12">
-                                                                {!!   Form::select('halls',$hall,array('placeholder'=>'select hall of choice',"required"=>"required",  "id"=>"halls","v-model"=>"halls","v-form-ctrl"=>"","v-select"=>"halls")   )  !!}
+                                                                {!!   Form::select('hall',$hall,array('placeholder'=>'select hall of choice',"required"=>"required",  "id"=>"halls","v-model"=>"halls","v-form-ctrl"=>"","v-select"=>"halls")   )  !!}
                                                              
                                                             </div>
                                                             <div class="input-field col m6 s12">
@@ -252,10 +255,15 @@
                                                                 <input id="programStudy" name="study_program" type="text" value="{{@$data->PROGRAMME_STUDY}}" class="required validate">
                                                             </div>
                                                              <div class="input-field col m6 s12">
-                                                                <label for="firstName">Former SHS (School)</label>
+                                                                <label for="firstName">Former  School </label>
                                                                 <input id="school" name="school" type="text" value="{{@$data->SCHOOL}}" class="required validate">
                                                             </div>
-                                                             
+                                                            @if(@Auth::user()->FORM_TYPE=="BTECH")
+                                                            <div class="input-field col s12">
+                                                            {!!   Form::select('class',array("FIRST CLASS"=>"FIRST CLASS","SECOND CLASS UPPER"=>"SECOND CLASS UPPER","SECOND CLASS LOWER"=>"SECOND CLASS LOWER","THIRD CLASS"=>"THIRD CLASS","PASS"=>"PASS"),old('class',''),array('placeholder'=>'Select class',"required"=>"required","tabindex"=>"-1"))  !!}
+                                                           
+                                                            </div>
+                                                           @endif
                                                         </div>
                                                     </div>
                                                 </div>

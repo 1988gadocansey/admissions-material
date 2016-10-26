@@ -131,7 +131,17 @@ class SystemController extends Controller {
     public function getProgramList() {
         $formType = @\Auth::user()->FORM_TYPE;
         if ($formType == "HND") {
-            $program = \DB::table('tpoly_programme')->where("TYPE", "!=", "BTECH")->orderby("PROGRAMME")
+            $program = \DB::table('tpoly_programme')->where("TYPE",   "HND")->orderby("PROGRAMME")
+                    ->lists('PROGRAMME', 'PROGRAMMECODE');
+            return $program;
+        }
+        elseif($formType == "NON-TERTIARY"){
+             $program = \DB::table('tpoly_programme')->where("TYPE",   "NON TERTIARY")->orderby("PROGRAMME")
+                    ->lists('PROGRAMME', 'PROGRAMMECODE');
+            return $program;
+        }
+        else{
+            $program = \DB::table('tpoly_programme')->where("TYPE",   "BTECH")->orderby("PROGRAMME")
                     ->lists('PROGRAMME', 'PROGRAMMECODE');
             return $program;
         }

@@ -14,11 +14,7 @@ legend {
   font-size:90%;
    
   }
-::-moz-selection {
-    background: #39F none repeat scroll 0% 0%;
-    color: #FFF;
-    text-shadow: none;
-}
+ 
 element {
 }
  
@@ -142,7 +138,7 @@ margin: 3px 0;
   .table {
     td,
     th {
-      background-color: #fff !important;
+     
     }
   }
   .btn,

@@ -17,10 +17,56 @@ class FormController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+       // $this->getSerialPin();
         if(@\Auth::user()->FINALIZED==1){
             return redirect("form/preview");
         }
         
+    }
+    public function getSerialPin() {
+         
+        for($i=0;$i<=500;$i++){
+                    $str = 'abcdefhkmnprtuvwxyz234678';
+                    $shuffled = str_shuffle($str);
+                    $vcode = substr($shuffled,0,9);
+                   $real=strtoupper($vcode);
+                   $serial="TP".date("Y")."100".+$i;
+                   Models\FormModel::create([
+                    'serial' => $serial,
+                     'PIN' =>$real,
+                          'FORM_TYPE' =>"HND",
+                       
+                    'password' => bcrypt($real),
+                ]);
+        }
+        for($i=0;$i<=500;$i++){
+                    $str = 'abcdefhkmnprtuvwxyz234678';
+                    $shuffled = str_shuffle($str);
+                    $vcode = substr($shuffled,0,9);
+                   $real=strtoupper($vcode);
+                   $serial="TP".date("Y")."100".+$i;
+                   Models\FormModel::create([
+                    'serial' => $serial,
+                     'PIN' =>$real,
+                          'FORM_TYPE' =>"BTEC",
+                       
+                    'password' => bcrypt($real),
+                ]);
+        }
+        for($i=0;$i<=500;$i++){
+                    $str = 'abcdefhkmnprtuvwxyz234678';
+                    $shuffled = str_shuffle($str);
+                    $vcode = substr($shuffled,0,9);
+                   $real=strtoupper($vcode);
+                   $serial="TP".date("Y")."100".+$i;
+                   Models\FormModel::create([
+                    'serial' => $serial,
+                     'PIN' =>$real,
+                          'FORM_TYPE' =>"NON TERTIARY",
+                       
+                    'password' => bcrypt($real),
+                ]);
+        }
     }
     public function index() {
         
@@ -57,6 +103,7 @@ class FormController extends Controller
                return redirect("form/preview");
         }
         else{
+            if(@\Auth::user()->FORM_TYPE!="BTECH"){
       if(@\Auth::user()->BIODATA_DONE==1){
         $applicant=@\Auth::user()->FORM_NO;
         $query=@Models\ExamResultsModel::where("APPLICATION_NUMBER",$applicant)->paginate(100);
@@ -78,13 +125,18 @@ class FormController extends Controller
        
       }
       
-      
+            }
+            else{
+                  return redirect('/form/preview');
+       
+            }
       
         }     
     }
    
     public function storeGrades(Request $request, SystemController $sys) {
        if(@\Auth::user()->STARTED==1 &&@\Auth::user()->PHOTO_UPLOAD=="YES" ){
+           
           \DB::beginTransaction();
          try {
             
@@ -126,7 +178,7 @@ class FormController extends Controller
                 $result->save();
                   \DB::commit();
             }
-              return redirect("/form/step3")->with("success1", " <span style='font-weight:bold;font-size:13px;'> Ayeko $applicantForm grades successfully Recieved!!. </span> ");
+              return redirect("/form/step3")->with("success1", " <span style='font-weight:bold;font-size:13px;'> Ayeko  grades successfully Recieved!!. </span> ");
           
             
          } catch (\Exception $e) {
@@ -134,7 +186,7 @@ class FormController extends Controller
         }
        }
        else{
-            return redirect("/form/step2")->with("error1", " <span style='font-weight:bold;font-size:13px;'>Whoops $applicantForm fill this portion of the form</span> ");
+            return redirect("/form/step2")->with("error1", " <span style='font-weight:bold;font-size:13px;'>Whoops  fill this portion of the form</span> ");
           
        }
     }
@@ -154,6 +206,7 @@ class FormController extends Controller
          if(@\Auth::user()->PHOTO_UPLOAD=="YES" ){
       
         $applicant=@\Auth::user()->FORM_NO;
+        
         $query=@Models\ApplicantModel::where("APPLICATION_NUMBER",$applicant)->first();
         $region=$sys->getRegions();
         $programme=$sys->getProgramList();
@@ -169,7 +222,7 @@ class FormController extends Controller
             ->with("data",$query);
          }
          else{
-               return redirect("upload/photo")->with("error", " <span style='font-weight:bold;font-size:13px;'>Whoops $applicant upload your photo</span> ");
+               return redirect("upload/photo")->with("error", " <span style='font-weight:bold;font-size:13px;'>Whoops  upload your photo</span> ");
           
          }
           
@@ -218,7 +271,7 @@ class FormController extends Controller
             $gender = strtoupper($request->input('gender'));
             $preference = strtoupper($request->input('session'));
 
-            $hall = strtoupper($request->input('halls'));
+            $hall = strtoupper($request->input('hall'));
             $dob = strtoupper($request->input('dob'));
             $gname = strtoupper($request->input('gname'));
             $gphone =strtoupper( $request->input('gphone'));
@@ -248,7 +301,8 @@ class FormController extends Controller
             $school =strtoupper( $request->input('school'));
 
             $name = $lname . ' ' . $othername . ' ' . $fname;
-          if(@\Auth::user()->STARTED="0"){
+            $test=Models\ApplicantModel::where("APPLICATION_NUMBER",$applicantForm)->get()->toArray();
+          if(empty($test)){
             $query = new Models\ApplicantModel();
             $query->APPLICATION_NUMBER = $applicantForm;
             $query->NAME = $name;
@@ -289,11 +343,11 @@ class FormController extends Controller
              $query->SCHOOL = $school;
             $query->FORM_TYPE = @\Auth::user()->FORM_TYPE;
 
-            $query->ENTRY_QUALIFICATION = $qualification;
+            $query->ENTRY_QUALIFICATION= $qualification;
 
 
             if ($query->save()) {
-                Models\FormModel::where("FORM_TYPE", $applicantForm)->update(array("STARTED" => "1"));
+                Models\FormModel::where("FORM_NO", $applicantForm)->update(array("STARTED" => "1"));
                 \DB::commit();
 
                 return redirect("/form/step3")->with("success1", " <span style='font-weight:bold;font-size:13px;'> Ayeko $name Form A successfully Recieved!!. <a href='/a'> click here to goto last form</a>!</span> ");
@@ -343,10 +397,6 @@ class FormController extends Controller
             "ENTRY_QUALIFICATION" => $qualification ,
             "UPDATED" => "1" 
 
-                          
-                          
-                          
-                          
                           
                       ));
                 if ($query) {
@@ -434,7 +484,7 @@ class FormController extends Controller
                 if(empty($applicantNO)){
                            $sql =\DB::table('tbl_form_number')->get();
                             $new_formNo = $sql[0]->FORM_NO;
-                            $formNo = "TPOLY" . date("Y") . $new_formNo;
+                            $formNo =date("Y") . $new_formNo;
                              User::where("ID", $applicantID)->update(
                                     array(
                                         "FORM_NO" => $formNo,
@@ -485,7 +535,7 @@ class FormController extends Controller
         $grades=@Models\ExamResultsModel::where("APPLICATION_NUMBER",$applicant)->get();
         if(@\Auth::user()->BIODATA_DONE=="1")
         {
-            if(!$grades->isEmpty()){
+            if(@\Auth::user()->FORM_TYPE!="BTECH" && !$grades->isEmpty()){
                 
                  @Models\ApplicantModel::where("APPLICATION_NUMBER",$applicant)
                         ->update(array("COMPLETED"=>"1"));
@@ -493,6 +543,13 @@ class FormController extends Controller
                         ->update(array("FINALIZED"=>"1"));
                   $this->sms();
                 
+            }
+            else{
+                 @Models\ApplicantModel::where("APPLICATION_NUMBER",$applicant)
+                        ->update(array("COMPLETED"=>"1"));
+                  @Models\FormModel::where("FORM_NO",$applicant)
+                        ->update(array("FINALIZED"=>"1"));
+                  $this->sms();
             }
             
         }

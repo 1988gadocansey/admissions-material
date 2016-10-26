@@ -1,114 +1,145 @@
-@extends('layouts.app')
+@extends('layouts.printlayout')
 
 
 @section('style')
-
+<link rel="stylesheet" href="{!! url('public/assets/css/print.css') !!}" media="all">  
+<style>
+    .uppercase{
+        font-weight: bolder;
+        text-align: right;
+    }
+</style>
 @endsection
 @section('content')
-<div class="col s12 m12 l12">
-    <div class="card">
-       
-            @if(Session::has('success'))
-             <div class="card-panel light-green lighten-3">
-            <div style="text-align: center" class=" white-text alert  alert-success"   >
-                {!! Session::get('success2') !!} <a href="{{url('form/step4')}}">Click to Preview Form and Submit it</a>
-            </div></div>
-            @endif
-             @if(Session::has('error'))
-             <div class="card-panel red">
-            <div style=" " class=" white-text alert  alert-success"  >
-                {!! Session::get('error2') !!}
-            </div></div>
-            @endif
 
-            @if (count($errors) > 0)
-
-             <div class="card-content blue-grey">
-                <div class=" alert  alert-danger  " style="background-color: red;color: white">
-
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li> {{  $error  }} </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-            @endif
-        </div> 
-</div>
-@inject('sys', 'App\Http\Controllers\SystemController')
-<main class="mn-inner ">
+<main class="mn-inner container">
     <div class="row">
-        <div class="col s12">
-            <div class="page-title  text-success"><small class="">Upload Exams Results here</small></div>
-        </div>
-        <form    id="form" accept-charset="utf-8" method="POST" name="applicationForm"  v-form>
-            <input type="hidden" name="_token" value="{!! csrf_token() !!}"> 
-          <table id="paymentTable" class="uk-table"border="0" style="font-weight:bold">
-	  <tr id="paymentRow" payment_row="payment_row"> 
-            <div class="col s12 m12 l12">
-                <div class="card hoverable">
-                    <div class="row">
-                        <div class="col m6">
-                            <div class="row">
-                                <div class="input-field col s12 m6 l3">
-                                    <label for="firstName">Index Number</label>
-                                    <input id="firstName" name="indexno" type="text"   class="required validate">
-                                </div>
-                                <div class="input-field col s12 m6 l3">
-                                    {!!   Form::select('type',$examType ,array('placeholder'=>'select exam type',"required"=>"required", "tabindex"=>"-1","v-model"=>"nationality","v-form-ctrl"=>"","style"=>"width: 100%","v-select"=>"nationality")   )  !!}
-
-                                </div>
-                                <div class="input-field col s12 m6 l3">
-                                    {!!   Form::select('subject',$subject ,array('placeholder'=>'select exam',"required"=>"required", "tabindex"=>"-1","v-model"=>"nationality","v-form-ctrl"=>"","style"=>"width: 100%","v-select"=>"nationality")   )  !!}
-
-                                </div>
-                                <div class="input-field col s12 m6 l3">
-                                    {!!   Form::select('grade',$grades ,array('placeholder'=>'select exam',"required"=>"required", "tabindex"=>"-1","v-model"=>"nationality","v-form-ctrl"=>"","style"=>"width: 100%","v-select"=>"nationality")   )  !!}
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col m6">
-                            <div class="row">
+        @inject('sys', 'App\Http\Controllers\SystemController')
 
 
-                                <div class="input-field col s12 m6 l3">
-                                    {!!   Form::select('month',array("MAY/JUNE"=>"MAY/JUNE","NOV/DEC"=>"NOV/DEC"),old('month',''),array('placeholder'=>'Select month',"required"=>"required","tabindex"=>"-1"))  !!}
-
-                                </div>
-                                <div class="input-field col s12 m6 l3">
-                                    {!!   Form::select('sitting',array("FIRST SITTING"=>"FIRST SITTING","SECOND SITTING"=>"SECOND SITTING","THIRD SITTING"=>"THIRD SITTING"),old('sitting',''),array('placeholder'=>'Select sitting',"required"=>"required","tabindex"=>"-1"))  !!}
-
-                                </div>
-                                <div class="input-field col s12 m6 l3">
-                                    <label for="firstName">Exam Center</label>
-                                    <input id="firstName" name="center" type="text"   class="required validate">
-                                </div>
-                                <div class="input-field col s12 m6 l3">
-                                    <td valign="top" id="insertPaymentCell"><button  type="button" id="insertPaymentRow" class="waves-effect waves-light btn green m-b-xs " ><i title="click to add more subjects" class="material-icons">add</i></button></td></tr>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          </tr>
-          </table>
-            <div style="margin-left: 500px">
-        <table>
+        <a onclick="javascript:printDiv('print')" class="waves-effect waves-purple btn-flat m-b-xs">Click to print</a>
+        @if(@\Auth::user()->FINALIZED!=1)
+        <a href="{{url('/upload/photo')}}" class="waves-effect waves-green btn-flat m-b-xs">Edit Information</a>
        
-        <tr><td><input type="submit" value="Save" id='save'v-show="applicationForm.$valid"  class="waves-effect waves-light btn green m-b-xs">
-      <input type="reset" value="Cancel" class="waves-effect waves-light btn red m-b-xs">
-            </td></tr></table></div>
-        
-        </form>
-    </div>
- 
-</main>
-@endsection
-@section('js')
+        <a href="{{url('/form/completed')}}" onclick="return confirm('Are you sure every information provided on this form is correct??. After submiting you cannot edit this form again')" class="waves-effect waves-blue btn-flat m-b-xs">Submit Form</a>
+         @else
+          <a href="{{url('/logout')}}"   class="waves-effect waves-blue btn-flat m-b-xs">Click to logout</a>
+        @endif
+        <div class="col s12 m12 l12">
+            <div class="card">
+                <div class="card-content">
+                    <div id='print'>
+                        <div id='page1'>    
+                            <table width="930" height="113" border="0">
+                                <tr>
+                                    <th align="center" valign="middle" scope="row">
+                                 
+                                <table style="" width="882" height="113" border="0" >
+                                    <tr>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td class="heading_a uk-text-bold">TAKORADI TECHNICAL UNIVERSITY</td>
 
 
-@endsection
+                                                </tr>
+                                                <Tr>
+                                                    <td class="heading_a">TEL: +233-031-2022917/8</td>
+                                                </Tr>
+                                                <tr>
+                                                    <td class="heading_c">EMAIL: info@tpoly.edu.gh</td>
+                                                </tr>
+                                                 <tr>
+                                                    <td class="heading_c">P.O.BOX 256,TAKORADI,GHANA</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td align='right'> <img src="<?php echo url('public/assets/images/logo.png')?>" style='width: 111px;height: auto;margin-left: -71px'/></td>
+                                    </tr>
+                                     
+                                        
+                                </table>
+                                
+                                
+                                </tr>
+
+
+                            </table>
+                            <hr>
+                            <table border='1'>
+                                <tr>
+                                    <td>
+                                        <table >
+                                            <tr>
+                                                <td>OUR REF: TP/ADM/1621811</td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td>YOUR REF: -------------</td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>{!! nl2br(strtoupper($student->ADDRESS)) !!}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>APPLICATION  N<u>O</u>:      {{  @\Auth::user()->FORM_NO}} </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td  width="15px">
+                                         <img   style="width:150px;height:auto "  <?php
+                                        $pic = $student->APPLICATION_NUMBER;
+                                        echo $sys->picture("{!! url(\"public/uploads/photos/$pic.jpg\") !!}", 90)
+                                        ?>   src='{{url("public/uploads/photos/$pic.jpg")}}' alt="  Affix Applicant picture here"    />
+                                    
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <div>
+                                <p>Dear  {{ $student->TITLE }}  {{ $student->NAME }}</p>
+                                <p>OFFER OF ADMISSION - {{ $student->program }} </p>
+                            </div>
+                        </div>
+                        <p>&nbsp;&nbsp;</p>
+                        <div id='page2'>
+                    page 2
+                        </div>
+                        <p> &nbsp;</p>
+                        <div id='page3'>
+                            page 3
+                            <div class="visible-print text-center" align='center'>
+                            {!! QrCode::size(100)->generate(Request::url()); !!}
+
+                        </div>
+                        </div>
+                       
+                    </div>
+
+                </div>
+                </main>
+                @endsection
+                @section('js')
+                <script language="javascript" type="text/javascript">
+                    function printDiv(divID) {
+                        //Get the HTML of div
+                        var divElements = document.getElementById(divID).innerHTML;
+                        //Get the HTML of whole page
+                        var oldPage = document.body.innerHTML;
+
+                        //Reset the page's HTML with div's HTML only
+                        document.body.innerHTML =
+                                "<html><head><title></title></head><body>" +
+                                divElements + "</body>";
+
+                        //Print Page
+                        window.print();
+
+                        //Restore orignal HTML
+                        document.body.innerHTML = oldPage;
+
+
+                    }
+                </script>
+
+                @endsection

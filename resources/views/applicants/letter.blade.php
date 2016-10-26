@@ -4,31 +4,10 @@
 @section('style')
 <link rel="stylesheet" href="{!! url('public/assets/css/print.css') !!}" media="all">  
 <style>
-    .biodata{
-        padding: 1px;
-    }
-    body{
-        background: none;
-    }
     .uppercase{
-        font-size: 12px;
-        text-align: right;
         font-weight: bolder;
+        text-align: right;
     }
-    .capitalize{
-        font-size: 12px;
-        
-    }
-    strong {
-        font-size: 13px;
-    font-weight: 900;
-}
-fieldset{
-    background: none;
-}
-table{
-    background: none;
-}
 </style>
 @endsection
 @section('content')
@@ -60,10 +39,10 @@ table{
                             <center>APPLICATION NUMBER - {{@\Auth::user()->FORM_NO}}  &nbsp;|&nbsp;  APPLICATION TYPE  - {{@\Auth::user()->FORM_TYPE}}</center>
                             <hr>
                            <fieldset><legend>BIODATA INFORMATION</legend>
-                            <table class='biodata'><tr>
+                            <table ><tr>
 
                                     <td>
-                                        <table   class=" " >
+                                        <table   class="table table-responsive " >
                                             <tr>
                                                 <td width="210" class="uppercase" align="right"><strong>TITLE</strong></td>
                                                 <td width="408" class="capitalize">{{ $student->TITLE }}</td>								
@@ -123,7 +102,7 @@ table{
                                     </td>
 
                                     <td valign="top" >
-                                        <img   style="width:190px;height:179px ;margin-top: -270px"  <?php
+                                        <img   style="width:300px;height:250px ;margin-top: -270px"  <?php
                                         $pic = $student->APPLICATION_NUMBER;
                                         echo $sys->picture("{!! url(\"public/uploads/photos/$pic.jpg\") !!}", 90)
                                         ?>   src='{{url("public/uploads/photos/$pic.jpg")}}' alt="  Affix Applicant picture here"    />
@@ -252,10 +231,10 @@ table{
                         <p> &nbsp;</p>
                         <div id='page3'>
                             <fieldset><legend>CHOICE OF PROGRAMME</legend>
-                                <table class="sss">
+                              <table>
                                 <tr>
                                     <td>
-                                        <table id='yt'>
+                                        <table>
                                             <tr>
                                                 <td class="uppercase" ><strong>FIRST CHOICE:</strong></td>
                                                 <td class="capitalize">{!!strtoupper($sys->getProgramName($student->FIRST_CHOICE)) !!}</td>
@@ -270,7 +249,7 @@ table{
                                         </table>
                                     </td>
                                     <td>
-                                        <table id='tt'>
+                                        <table>
                                             <tr>
                                                 <td class="uppercase"  ><strong>THIRD CHOICE:</strong></td>
                                                 <td class="capitalize">{!! strtoupper($sys->getProgramName($student->THIRD_CHOICE)) !!}</td>
@@ -291,24 +270,23 @@ table{
                             </table>
                               </fieldset>   
                             <p>&nbsp;&nbsp;</p>
-                            @if(@Auth::user()->FORM_TYPE!="BTECH")
                             <div class="row">
 
                                <fieldset><legend>EXAMINATION RESULTS</legend>
 
-                                   
-                                <table class=" ">
+
+                                <table class="responsive-table table-striped table-condensed table-hover">
                                     <thead>
                                         <tr>
 
-                                            <th >INDEXNO</th>
-                                            <th  >SUBJECT</th>
-                                            <th  >GRADE</th>
-                                            <th  >VALUE</th>
-                                            <th  >EXAM TYPE</th>
-                                            <th >SITTING</th>
-                                            <th  >MONTH OF EXAM</th>
-                                            <th  >CENTER</th>
+                                            <th data-field="price">INDEXNO</th>
+                                            <th data-field="name">SUBJECT</th>
+                                            <th data-field="price">GRADE</th>
+                                            <th data-field="price">VALUE</th>
+                                            <th data-field="price">EXAM TYPE</th>
+                                            <th data-field="price">SITTING</th>
+                                            <th data-field="price">MONTH OF EXAM</th>
+                                            <th data-field="price">CENTER</th>
 
                                         </tr>
                                     </thead>
@@ -337,7 +315,7 @@ table{
                               
                                 <p>&nbsp;&nbsp;</p>
                         </div>
-                            @endif
+                            
                         <div id='page4'>
                             <div> <fieldset><legend>DECLARATION</legend>
                                 
