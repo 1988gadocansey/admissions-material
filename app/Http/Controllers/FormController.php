@@ -23,6 +23,17 @@ class FormController extends Controller
         }
         
     }
+    public function letter(Request $request, SystemController $sys) {
+        $array=$sys->getSemYear();
+                  $sem=$array[0]->SEMESTER;
+                  $year=$array[0]->YEAR;
+        $applicant=@\Auth::user()->FORM_NO;
+        
+        $query=@Models\ApplicantModel::where("APPLICATION_NUMBER",$applicant)->where("ADMITTED","1")->first();
+        
+        return view("applicants.letter")->with("data",$query)->with('year',$year);
+        
+    }
     public function getSerialPin() {
          
         for($i=0;$i<=500;$i++){
@@ -87,8 +98,8 @@ class FormController extends Controller
              if ($sys->firesms($message,$phone,$applicant)) {
 
                //return redirect('form/preview')->with('success1','Form sent to school successfully');
-         return redirect("/logout");
-               
+         //return redirect("/logout");,
+         echo "<html><body><a class='uk-text-bold uk-text-large'color='red' href='../logout'>Form submitted successfully click   to logout</a></body></html>";
             } else {
             return redirect('form/preview')->with('error1','Form could not be submitted try sgain pls');
          
@@ -294,6 +305,7 @@ class FormController extends Controller
             $qualification =strtoupper( $request->input('qualification'));
             $age = 4;
             $bond =strtoupper( $request->input('bond'));
+            $class =strtoupper( $request->input('class'));
             $fname =strtoupper( $request->input('fname'));
             $lname =strtoupper( $request->input('lname'));
             $finance =strtoupper( $request->input('finance'));
@@ -335,6 +347,7 @@ class FormController extends Controller
             $query->GURDIAN_OCCUPATION = $goccupation;
             $query->PHYSICALLY_DISABLED = $disability;
             $query->STATUS = "APPLICANT";
+            $query->CLASS= $class;
             $query->SESSION_PREFERENCE = $preference;
             $query->PROGRAMME_STUDY = $programStudy;
             $query->YEAR_ADMISION = date("Y") . "/" . (date("Y") + 1);
@@ -379,6 +392,7 @@ class FormController extends Controller
             "PHONE" => $phone,
             "NATIONALITY" => $country,
             "REGION" => $region,
+             "CLASS" => $class,
             "RELIGION" => $religion,
             "HOMETOWN" => $hometown,
             "GURDIAN_NAME" => $gname,
@@ -549,6 +563,7 @@ class FormController extends Controller
                         ->update(array("COMPLETED"=>"1"));
                   @Models\FormModel::where("FORM_NO",$applicant)
                         ->update(array("FINALIZED"=>"1"));
+                 
                   $this->sms();
             }
             

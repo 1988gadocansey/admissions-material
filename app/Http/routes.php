@@ -40,6 +40,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/form/preview', 'FormController@preview');
     Route::get('/form/print', 'FormController@preview');
     Route::get('/form/completed', 'FormController@finanlize');
+    Route::get('/form/letter', 'FormController@letter');
      
 
     Route::match(array("get", "post"), '/upload/legacy', "CourseController@uploadLegacy");

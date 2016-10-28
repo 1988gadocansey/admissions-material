@@ -70,12 +70,24 @@
                                                                 <label for="email">Othernames</label>
                                                                 <input id="oname" name="othernames" value="{{@$data->OTHERNAME}}" type="text" class="">
                                                             </div>
+                                                            @if(@\Auth::user()->FORM_TYPE!="BTECH")
                                                             <div class="input-field col s12">
                                                                 <div class="input-field col m6 s12">
-                                                        {!!   Form::select('qualification',array("WASSCE"=>"WASSCE","SSCE"=>"SSCE","CERTIFICATE"=>"CERTIFICATE","TECHNICAL"=>"TECHNICAL SCHOOL"),old('qualification',''),array('placeholder'=>'SELECT QUALIFICATION',"required"=>"required", "tabindex"=>"-1"))  !!}
+                                                        {!!   Form::select('qualification',array("WASSCE"=>"WASSCE","SSCE"=>"SSCE","TECHNICAL"=>"TECHNICAL SCHOOL"),old('qualification',''),array('placeholder'=>'SELECT QUALIFICATION',"required"=>"required", "tabindex"=>"-1"))  !!}
                                                             </div>
-
+                                                               
+                                                                
                                                             </div>
+                                                            @else
+                                                            <div class="input-field col s12">
+                                                                <div class="input-field col m6 s12">
+                                                        {!!   Form::select('qualification',array("CERTIFICATE"=>"CERTIFICATE"),old('qualification',''),array('placeholder'=>'SELECT QUALIFICATION',"required"=>"required", "tabindex"=>"-1"))  !!}
+                                                            </div>
+                                                               
+                                                                
+                                                            </div>
+                                                            @endif
+                                                            
                                                             <div class="input-field col s12">
                                                                 <label for="confirm">Application Mode </label>
                                                                 <input id="" readonly="" name="entry" type="text" value="{{@\Auth::user()->FORM_TYPE}}" class="required validate">
@@ -126,7 +138,7 @@
                                                                 <input id="s" name="hometown" type="text" value="{{@$data->HOMETOWN}}"class="required validate">
                                                             </div>
                                                             <div class="input-field col m6 s12">
-                                                                <label for="lastName">Contact Address</label>
+                                                                <label for="lastName">Postal Address</label>
                                                                 <input id="contact" name="contact" type="text" value="{{@$data->ADDRESS}}" class="required validate">
                                                             </div>
                                                             <div class="input-field col m6 s12">
@@ -260,7 +272,7 @@
                                                             </div>
                                                             @if(@Auth::user()->FORM_TYPE=="BTECH")
                                                             <div class="input-field col s12">
-                                                            {!!   Form::select('class',array("FIRST CLASS"=>"FIRST CLASS","SECOND CLASS UPPER"=>"SECOND CLASS UPPER","SECOND CLASS LOWER"=>"SECOND CLASS LOWER","THIRD CLASS"=>"THIRD CLASS","PASS"=>"PASS"),old('class',''),array('placeholder'=>'Select class',"required"=>"required","tabindex"=>"-1"))  !!}
+                                                            {!!   Form::select('class',array("FIRST CLASS"=>"FIRST CLASS","SECOND CLASS UPPER"=>"SECOND CLASS UPPER","SECOND CLASS LOWER"=>"SECOND CLASS LOWER","THIRD CLASS"=>"THIRD CLASS","PASS"=>"PASS"),old('class',''),array('placeholder'=>'Select class',"tabindex"=>"-1"))  !!}
                                                            
                                                             </div>
                                                            @endif

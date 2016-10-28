@@ -4,10 +4,71 @@
 @section('style')
 <link rel="stylesheet" href="{!! url('public/assets/css/print.css') !!}" media="all">  
 <style>
-    .uppercase{
-        font-weight: bolder;
-        text-align: right;
+    .letter{
+        text-align: right
     }
+    #page1 {
+    font-size: 12px;
+    }
+    #print{
+        background-image:url("{!! url('public/assets/images/logo.png') !!},120px,110px");
+        background-position: center;
+    }
+    @media print {
+	#page1	{page-break-before:always;}
+	.condition	{page-break-before:always;}
+	#page2	{page-break-before:always;}
+        .school	{page-break-before:always;}
+	.page9	{page-break-inside:avoid; page-break-after:auto}
+	 a,
+  a:visited {
+    text-decoration: underline;
+  }
+  body{font-size: 14px}
+  size:A4;
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+   
+  a[href^="javascript:"]:after,
+  a[href^="#"]:after {
+    content: "";
+  }
+
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group; 
+  }
+
+  tr,
+   
+
+   
+  @page {
+    margin: 2cm .5cm;
+  }
+  body{
+      background: none;
+  }
+   
+  
+  .navbar {
+    display: none;
+  }
+   
+
+  
+}
 </style>
 @endsection
 @section('content')
@@ -17,397 +78,154 @@
         @inject('sys', 'App\Http\Controllers\SystemController')
 
 
-        <a onclick="javascript:printDiv('print')" class="waves-effect waves-purple btn-flat m-b-xs">Click to print</a>
-        @if(@\Auth::user()->FINALIZED!=1)
-        <a href="{{url('/upload/photo')}}" class="waves-effect waves-green btn-flat m-b-xs">Edit Information</a>
-       
-        <a href="{{url('/form/completed')}}" onclick="return confirm('Are you sure every information provided on this form is correct??. After submiting you cannot edit this form again')" class="waves-effect waves-blue btn-flat m-b-xs">Submit Form</a>
-         @else
-          <a href="{{url('/logout')}}"   class="waves-effect waves-blue btn-flat m-b-xs">Click to logout</a>
-        @endif
+       <!-- <a onclick="javascript:printDiv('print')" class="waves-effect waves-purple btn-flat m-b-xs">Click to print letter</a> -->
+
         <div class="col s12 m12 l12">
             <div class="card">
                 <div class="card-content">
                     <div id='print'>
-                        <div id='page1'>    
-                            <table style="" width="882" height="113" border="0" align="left">
-                                <tr>
-                                    <td><img src='{{url("public/assets/images/printout.png")}}' style="width:581px;height:153px;margin-left: 20%;" /> </td
-
-                                </tr>
-                            </table>
-                            <center>APPLICATION NUMBER - {{@\Auth::user()->FORM_NO}}  &nbsp;|&nbsp;  APPLICATION TYPE  - {{@\Auth::user()->FORM_TYPE}}</center>
-                            <hr>
-                           <fieldset><legend>BIODATA INFORMATION</legend>
-                            <table ><tr>
-
-                                    <td>
-                                        <table   class="table table-responsive " >
-                                            <tr>
-                                                <td width="210" class="uppercase" align="right"><strong>TITLE</strong></td>
-                                                <td width="408" class="capitalize">{{ $student->TITLE }}</td>								
-                                            </tr>
-                                            <tr>
-                                                <td width="210" class="uppercase" align="right"><strong>SURNAME</strong></td>
-                                                <td width="408" class="capitalize">{{ $student->SURNAME }}</td>								
-                                            </tr>
-                                            <tr>
-                                                <td width="210" class="uppercase" align="right"><strong>FIRST NAME</strong></td>
-
-                                                <td width="408" class="capitalize">{{ $student->FIRSTNAME }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="uppercase" style=""align="right"><strong>OTHERNAMES:</strong></td>
-                                                <td class="capitalize"><?php echo strtoupper($student->OTHERNAME) ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="uppercase" align="right"><strong>GENDER:</strong></td>
-                                                <td class="capitalize"><?php echo strtoupper($student->GENDER) ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="uppercase" align="right"><strong>DATE OF BIRTH</strong>:</td>
-                                                <td class="capitalize"><?php echo $student->DOB ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="uppercase" align="right"><strong>SOURCE OF FINANCE</strong>:</td>
-                                                <td class="capitalize"><?php echo strtoupper($student->SOURCE_OF_FINANCE) ?></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="uppercase" align="right"><strong>PHONE:</strong></td>
-                                                <td class="capitalize"><?php echo "+233" . \substr($student->PHONE, -9); ?></td>
-                                            </tr>
-
-                                            <tr>
-                                                <td class="uppercase" align="right"><strong>PROGRAMME STUDIED:</strong></td>
-                                                <td class="capitalize"><?php echo strtoupper($student->PROGRAMME_STUDY) ?></td>
-
-                                            </tr>
-
-                                            <tr>
-                                                <td class="uppercase" align="right"><strong>PREVIOUS SCHOOL</strong></td>
-                                                <td class="capitalize"><?php echo strtoupper($student->SCHOOL) ?></td>
-
-
-                                            </tr>
-                                            <tr>
-                                                <td class="uppercase" align="right"><strong>EMAIL</strong></td>
-                                                <td class="capitalize">{!!strtoupper($student->EMAIL) !!}</td>
-
-                                            </tr>
-
-
-                                        </table>
-
-                                    </td>
-
-                                    <td valign="top" >
-                                        <img   style="width:300px;height:250px ;margin-top: -270px"  <?php
-                                        $pic = $student->APPLICATION_NUMBER;
+                        
+                       @if(!empty($data))
+                       <div id="page1">
+                        <table border='1'>
+                            <tr>
+                                <td>
+                                     <img src='{{url("public/assets/images/logo.png")}}' style="width:100px;height: auto" /> 
+                                        
+                                </td>
+                                <td align='right' style="width:239px">
+                                    <table class='letter'border='1'>
+                                        <tr>
+                                        <p style="font-size:14px">TAKORADI TECHNICAL UNIVERSITY<br/>
+                                            TEL:+233-031-2022917/8<br/>
+                                            EMAIL:info@tpoly.edu.gh<br/>
+                                            P.O.BOX 256,TAKORADI,GHANA
+                                        
+                                        
+                                        </p>
+                                            
+                                        </tr>
+                                        
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr>
+                        <table>
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td> <p>OUR REF: TP/ADM/1621811</p></td>
+                                        </tr>
+                                        <tr>
+                                         <td>
+                                            <p>YOUR REF: ..........................</p>
+                                    
+                                         </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td><p><?php echo $data->ADDRESS;?></p></td>
+                                        </tr>
+                                         <tr>
+                                            <td><p><?php echo date("D M d, Y");?></p></td>
+                                        </tr>
+                                    </table>
+                                   
+                                    
+                                </td>
+                                <td>
+                                <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</p>
+                                      <img   style="width:240px;height: auto;margin-left: -177px "  <?php
+                                        $pic = $data->APPLICATION_NUMBER;
                                         echo $sys->picture("{!! url(\"public/uploads/photos/$pic.jpg\") !!}", 90)
                                         ?>   src='{{url("public/uploads/photos/$pic.jpg")}}' alt="  Affix Applicant picture here"    />
-                                    </td>
-                                    <td>
-                                <tr>
-                                    <td class="uppercased" align="right"><strong>SESSION PREFERENCE &nbsp;
-                                            {!! strtoupper($student->SESSION_PREFERENCE) !!}</</td>
-
-
-                                    <td class="uppercased" align="right"><strong>PHYSICALLY DISABLED 
-                                            {!! strtoupper($student->PHYSICALLY_DISABLED) !!}</strong></td>
-
-                                </tr>
+                                  
                                 </td>
-
-                                </tr>
-                            </table>
-                           </fieldset>
-                        </div>
-                        <p>&nbsp;&nbsp;</p>
-                        <div id='page2'>
-                            <fieldset><legend>OTHER INFORMATION</legend>
-                              <table>
-                                <tr>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td class="uppercases" ><strong>HOMETOWN:</strong></td>
-                                                <td class="capitalize">{!! strtoupper($student->HOMETOWN) !!}</td>
-
-                                            </tr>
-                                            <tr>
-                                                <td class="uppercases" style=""><strong>CONTACT ADDRESS</strong></td>
-                                                <td class="capitalize">{!! strtoupper($student->ADDRESS) !!}</td>
-
-                                            </tr>
-
-                                        </table>
-                                    </td>
-                                   
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td class="uppercases"  ><strong>RESIDENTIAL ADDRESS:</strong></td>
-                                                <td class="capitalize">{!! strtoupper($student->RESIDENTIAL_ADDRESS) !!}</td>
-
-                                            </tr>
-                                            <tr>
-                                                <td class="uppercases"  ><strong>HOMETOWN REGION</strong></td>
-                                                <td class="capitalize">{!! strtoupper($student->REGION) !!}</td>
-
-                                            </tr>
-                                        </table>
-
-
-                                    </td>
-                                <tr>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td class="uppercases"><strong>HALL</strong></td>
-                                                <td class="capitalize">{!!strtoupper( $student->PREFERED_HALL) !!}</td>
-                                                 <td class="uppercases"><strong>RELIGION</strong></td>
-                                                <td class="capitalize">{!! strtoupper($student->RELIGION) !!}</td>
-
-
-                                            </tr>
-                                            <tr>
-                                                <td class="uppercases"><strong>MARITAL STATUS</strong></td>
-                                                <td class="capitalize">{!! strtoupper($student->MARITAL_STATUS) !!}</td>
-                                                <td class="uppercases"><strong>NATIONALITY</strong></td>
-                                                <td class="capitalize">{!! strtoupper($student->COUNTRY )!!}</td>
-
-                                            </tr>
-                                             
-                                        </table>
-                                    </td>
-                                    
-                                </tr>
-                                <tr>
-
-                                </tr>
-                            </table>
-                            </fieldset>
-                            <p>&nbsp;&nbsp;</p>
-                    <fieldset><legend>GURADIAN INFORMATION</legend>
-                             <table>
-                                <tr>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td class="uppercase" ><strong>GUARDIAN NAME:</strong></td>
-                                                <td class="capitalize">{!! strtoupper($student->GURDIAN_NAME) !!}</td>
-
-                                            </tr>
-                                            <tr>
-                                                <td class="uppercase"><strong>GURDIAN ADDRESS</strong></td>
-                                                <td class="capitalize">{!! strtoupper($student->GURDIAN_ADDRESS) !!}</td>
-
-                                            </tr>
-
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td class="uppercase"  ><strong>GUARDIAN PHONE:</strong></td>
-                                                <td class="capitalize">{!! strtoupper($student->GURDIAN_PHONE) !!}</td>
-
-                                            </tr>
-                                            <tr>
-                                                <td class="uppercase"  ><strong>GUARDIAN OCCUPATION</strong></td>
-                                                <td class="capitalize">{!! strtoupper($student->GURDIAN_OCCUPATION) !!}</td>
-
-                                            </tr>
-
-                                        </table>
-                                    </td>
-                                </tr>
-
-
-                            </table>
-                    </fieldset>
-                        </div>
-                        <p> &nbsp;</p>
-                        <div id='page3'>
-                            <fieldset><legend>CHOICE OF PROGRAMME</legend>
-                              <table>
-                                <tr>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td class="uppercase" ><strong>FIRST CHOICE:</strong></td>
-                                                <td class="capitalize">{!!strtoupper($sys->getProgramName($student->FIRST_CHOICE)) !!}</td>
-
-                                            </tr>
-                                            <tr>
-                                                <td class="uppercase"><strong>SECOND CHOICE</strong></td>
-                                                <td class="capitalize">{!! strtoupper($sys->getProgramName($student->SECOND_CHOICE)) !!}</td>
-
-                                            </tr>
-
-                                        </table>
-                                    </td>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td class="uppercase"  ><strong>THIRD CHOICE:</strong></td>
-                                                <td class="capitalize">{!! strtoupper($sys->getProgramName($student->THIRD_CHOICE)) !!}</td>
-
-                                            </tr>
-                                            <tr>
-                                                <td class="uppercase"  ><strong>ENTRY QUALIFICATION:</strong></td>
-                                                <td class="capitalize">{!! strtoupper($student->ENTRY_QUALIFICATION) !!}</td>
-
-                                            </tr>
-
-
-                                        </table>
-                                    </td>
-                                </tr>
-
-
-                            </table>
-                              </fieldset>   
-                            <p>&nbsp;&nbsp;</p>
-                            <div class="row">
-
-                               <fieldset><legend>EXAMINATION RESULTS</legend>
-
-
-                                <table class="responsive-table table-striped table-condensed table-hover">
-                                    <thead>
-                                        <tr>
-
-                                            <th data-field="price">INDEXNO</th>
-                                            <th data-field="name">SUBJECT</th>
-                                            <th data-field="price">GRADE</th>
-                                            <th data-field="price">VALUE</th>
-                                            <th data-field="price">EXAM TYPE</th>
-                                            <th data-field="price">SITTING</th>
-                                            <th data-field="price">MONTH OF EXAM</th>
-                                            <th data-field="price">CENTER</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @foreach($data as $index=> $row) 
-
-
-                                        <tr align="">
-                                            <td> {{ strtoupper(@$row->INDEX_NO) }}</td>
-                                            <td> {{ strtoupper(@$row->subject->NAME)	 }}</td>
-                                            <td> {{ strtoupper(@$row->GRADE)	 }}</td>
-                                            <td> {{ strtoupper(@$row->GRADE_VALUE)	 }}</td>
-                                            <td> {{ strtoupper(@$row->EXAM_TYPE) }}</td>
-                                            <td> {{ strtoupper(@$row->SITTING) }}</td>
-                                            <td> {{ strtoupper(@$row->MONTH) }}</td>
-                                            <td> {{ strtoupper(@$row->CENTER) }}</td>
-
-                                        </tr> 
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                         </fieldset>
-
-                           
-                              
-                                <p>&nbsp;&nbsp;</p>
-                        </div>
-                            
-                        <div id='page4'>
-                            <div> <fieldset><legend>DECLARATION</legend>
+                            </tr>
+                         
+                             
+                        </table>
+                        <div style="margin-left: 10px">
+                            <p>Dear {{$data->TITLE}}.  {{$data->NAME}}</p>
+                            <p>&nbsp;</p>
+                            <div style="margin-left: 0px;text-align: justify">
+                                <centerd><b><p class="">OFFER OF ADMISSION  - {{ strtoupper($sys->getProgram($data->PROGRAMME_ADMITTED))}}    PROGRAMME  -  ADMISSION N<u>O </u>: {{$data->APPLICATION_NUMBER}}</p></b></center>
+                                <hr>
+                                <p>We write on behalf of the Academic Board to offer you admission to Takoradi Polytechnic to persue a programme of study leading to the award of<b> {{$sys->getProgram($data->PROGRAMME_ADMITTED)}}</b>. The duration of the programme is {{$sys->getProgramDuration($data->PROGRAMME_ADMITTED)}} Academic years. A change of Programme is <strong><b>NOT ALLOWED</b>.</strong></p>
+                                <p>&nbsp;</p>
+                                <p>Your admission is for the {{$year}} Academic year. If you fail to enroll or withdraw from the programme without prior approval of the Polytechnic, you will forfeit the admission automatically.</p>
+                                <p>&nbsp;</p>
                                 
-                                
-                                
-                                    <p>I {{$student->NAME}} certify that the information provided above is true and will be held personally for its authencity and will bear  
-                                      any consequences for any invalid information provided.
-                                    </p>
-                                </fieldset>
-                            
-                            
-                            </div>
-            <div>
-                <p>&nbsp;</p>
-                <p>&nbsp;</p>
-               <fieldset><legend>CORROBORATIVE DECLARATION</legend>
-                   <p>(Please read the instructions carefully before you endorse this form)</p>
-                   <p></p>
-                   <p>1. This declaration should be signed a person of high integrity and honour who must also endorse at least one of the candidate's passport size photographs on the reverse side and also satisfy him/herself that the examination grades indicated
-                   on the form by the applicant are true.
-                   <p>2. The application will not be valid if the declaration below is not signed</p>
-                   <p>3.If the declaration proves to be false, the application shall be rejected; if falsely detected after admission, the student shall be dismissed.</p>
-                   <p>&nbsp;</p>
-                <p> 
-                    I hereby declare that the photograph endorsed by me is the true likeness of the applicant {{$student->TITLE}} {{$student->NAME}} who is personally known to me. I have inspected his/her certificates against the results indicated on the form and I satisfied that they are true and name that appears on them is the same as that by which he/she is officially/personally known to me.
-                    
-                    </p>
-                    <table>
-                        <tr>
-                            <td>SIGNATURE 
-                              &nbsp;.............................................................................................</td>
-                           
-                        </tr>
-                         <tr>
-                            <td>DATE 
-                               &nbsp;.............................................................................................</td>
-                           
-                        </tr>
-                         <tr>
-                            <td>NAME(BLOCKLETTERS) 
-                               &nbsp;.............................................................................................</td>
-                           
-                        </tr>
-                         <tr>
-                            <td>OCCUPATION
-                               &nbsp;.............................................................................................</td>
-                           
-                        </tr>
-                        <tr>
-                            <td>POSITION 
-                                &nbsp;.............................................................................................</td>
-                           
-                        </tr>
-                         <tr>
-                            <td>ADDRESS & OFFICIAL STAMP
-                                &nbsp;.............................................................................................</td>
-                           
-                        </tr>
-                    </table>
-                </fieldset> 
-            </div>
-                        </div>
-<!--                        <div class="visible-print text-center" align='center'>
+                                <p>The {{$year}} is scheduled to begin on <b> 19th September {{date('Y')}}</b>. You are however expected to report for medical examination and registration from <b>19th-30th September {{date('Y')}}</b>.You are mandated to participate in orientation programme which will run from <b>26th-30th September {{date('Y')}}</b>.</p>
+                                 <p>&nbsp;</p>
+                                 <p>You are required to make full payment of <b>non-refundable fee </b> of <b>GHC{{ $data->ADMISSION_FEES}}</b> at any branch of <b>PRUDENTIAL BANK into Account Number 0271900010010</b>. If you do not indicate acceptance by paying the fees before <b> 2nd September,{{date('Y')}}</b> your place will be offered to another applicant on the waiting list. You are advised to make photocopy of the Pay-in-slip for keeps and present the original to the School Accounts Office on arrival.Indicate your admission number and programme of study on the Pay-in-slip. Any Applicant who fails to make full payment of fees forfeit his/her admission. <b>Note: Fee payment is for an Academic Year</b>.</p>
+                            <p>&nbsp;</p>
+                            <p>You will be on probation for the full duration of your programme and may be dismissed at any time for unsatisfactory academic work or misconduct. You will be required to adhere to <b>ALL</b> the rules and regulations of the Polytechnicas contained in the Polytechnic Statutes, Examination Policy, Ethics Policy and Students' Handbook.</p>
+                             <p>&nbsp;</p>
+                             <p>You are also to note that your admission is subject to being declared medically fit to pursue the programme of study in this Polytechnic. You <b>are therefore required to undergo a medical examination at the Polytechnic Clinic before registration.</b> <b>You will be withdrawn from the Polytechnic if you fail to do the medical examination</b>.</p>
+                            <p>&nbsp;</p>
+                            <p>Applicants will also be held personally for any false statement or omission made in their applications.</p>
+                            <p>&nbsp;</p>
+                            <p>The Polytechnic does not give financial assistance to students. It is therefore the responsibility of students to arrange for their own sponsorship and maintenance during the period of study.</p>
+                            <p>&nbsp;</p>
+                            <p>You are required to note that the Polytechnic is a secular institution and is therefore not bound by observance of any religious or sectarian practices. As much as possible the Polytechnic lectures and / or examination would be scheduled to take place within normal working days, but where its is not feasible, lectures and examination would be held on other days.</p>
+                            <p>&nbsp;</p>
+                            <p>As a policy of the Polytechnic, all students shall be required to register under the National Health Insurance Scheme (NHIS) on their own to enable them access medical care whilst on campus.</p>
+                            <p>&nbsp;</p>
+                            <p>You are affiliated to {{strtoupper($data->HALL_ADMITTED)}}.</p>
+                            <p>&nbsp;</p>
+                            <p>Any applicant who falsified results will be withdrawn from the polytechnic and will forfeit his/her fees paid.</p>
+                           <p>&nbsp;</p>
+                           <p>Please, accept my congratulations on your admission to the Polytechnic.</p>
+                           <p>&nbsp;</p> <p>&nbsp;</p>
+                           <div>
+                           <table>
+                           <tr>
+                           <td>
+                               <p>Yours Faithfully</p>
+                               <p><img src='{{url("public/assets/images/signature.JPG")}}' style="width:90px;height:auto;" /></p>
+                               <p>ASST.REGISTRAR(ADMISSIONS)<br/>For: REGISTRAR</p>
+                               </td>
+                               <td><div class="visible-print text-center" align='center'>
                             {!! QrCode::size(100)->generate(Request::url()); !!}
 
-                        </div>-->
+                        </div></td>
+                               </tr>
+
+                               </table>
+                           </div>
+                            </div>
+                        </div>
+                       </div>
+                        @else
+                        <p>Letter not ready yet. come back later</p>
+                        @endif
                     </div>
+                    </main>
+                    @endsection
+                    @section('js')
+                    <script language="javascript" type="text/javascript">
+                        function printDiv(divID) {
+                            //Get the HTML of div
+                            var divElements = document.getElementById(divID).innerHTML;
+                            //Get the HTML of whole page
+                            var oldPage = document.body.innerHTML;
 
-                </div>
-                </main>
-                @endsection
-                @section('js')
-                <script language="javascript" type="text/javascript">
-                    function printDiv(divID) {
-                        //Get the HTML of div
-                        var divElements = document.getElementById(divID).innerHTML;
-                        //Get the HTML of whole page
-                        var oldPage = document.body.innerHTML;
+                            //Reset the page's HTML with div's HTML only
+                            document.body.innerHTML =
+                                    "<html><head><title></title></head><body>" +
+                                    divElements + "</body>";
 
-                        //Reset the page's HTML with div's HTML only
-                        document.body.innerHTML =
-                                "<html><head><title></title></head><body>" +
-                                divElements + "</body>";
+                            //Print Page
+                            window.print();
 
-                        //Print Page
-                        window.print();
-
-                        //Restore orignal HTML
-                        document.body.innerHTML = oldPage;
+                            //Restore orignal HTML
+                            document.body.innerHTML = oldPage;
 
 
-                    }
-                </script>
+                        }
+                    </script>
 
-                @endsection
+                    @endsection

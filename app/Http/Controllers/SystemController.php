@@ -126,6 +126,12 @@ class SystemController extends Controller {
 
         return @$programme[0]->PROGRAMME;
     }
+    public function getProgramDuration($code) {
+
+        $programme = \DB::table('tpoly_programme')->where('PROGRAMMECODE', $code)->get();
+
+        return @$programme[0]->DURATION;
+    }
 
     // this is purposely for select box 
     public function getProgramList() {
@@ -260,7 +266,7 @@ class SystemController extends Controller {
                      
                     } 
                      
-                
+                  
                 $array=  $this->getSemYear();
                 $sem=$array[0]->SEMESTER;
                 $year=$array[0]->YEAR;
@@ -278,7 +284,8 @@ class SystemController extends Controller {
                      
                    $sms->save();
                    \DB::commit();
-                   return redirect("/logout");
+                   
+                  // return redirect("/logout");
                } catch (\Exception $e) {
                 \DB::rollback();
             }

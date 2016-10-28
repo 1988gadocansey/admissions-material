@@ -64,6 +64,8 @@
         </div>
   <div id="login-page" class="row">
     <div class="col s12 z-depth-4 card-panel">
+        <center><Strong style="color:red">PLEASE USE GOOGLE CHROME BROWSER</strong></center>
+      
         <form class="login-form"  method="POST"  action="{{ url('login') }}">
              {!! csrf_field() !!}
              <div>&nbsp;</div>

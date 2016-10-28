@@ -4,6 +4,15 @@
 @section('style')
 <link rel="stylesheet" href="{!! url('public/assets/css/print.css') !!}" media="all">  
 <style>
+    @media print {
+	#page1	{page-break-before:always;}
+	.condition	{page-break-before:always;}
+	#page2	{page-break-before:always;}
+        #page3	{page-break-before:always;}
+       #page4	{page-break-before:always;}
+        .school	{page-break-before:always;}
+	.page9	{page-break-inside:avoid; page-break-after:auto}
+	  }
     .biodata{
         padding: 1px;
     }
@@ -29,6 +38,7 @@ fieldset{
 table{
     background: none;
 }
+ 
 </style>
 @endsection
 @section('content')
@@ -37,28 +47,49 @@ table{
     <div class="row">
         @inject('sys', 'App\Http\Controllers\SystemController')
 
-
-        <a onclick="javascript:printDiv('print')" class="waves-effect waves-purple btn-flat m-b-xs">Click to print</a>
+        <center><Strong>PLEASE PRINT THIS PAGE USING GOOGLE CHROME BROWSER</strong></center>
+        <a onclick="javascript:printDiv('print')" class="waves-effect waves-purple btn-flat m-b-xs">Click to print form</a>
         @if(@\Auth::user()->FINALIZED!=1)
         <a href="{{url('/upload/photo')}}" class="waves-effect waves-green btn-flat m-b-xs">Edit Information</a>
        
         <a href="{{url('/form/completed')}}" onclick="return confirm('Are you sure every information provided on this form is correct??. After submiting you cannot edit this form again')" class="waves-effect waves-blue btn-flat m-b-xs">Submit Form</a>
          @else
-          <a href="{{url('/logout')}}"   class="waves-effect waves-blue btn-flat m-b-xs">Click to logout</a>
-        @endif
+         
+            <a href="{{url('/form/letter')}}"  class="waves-effect waves-blue btn-flat m-b-xs">Print Admission Letter</a>
+       <a href="{{url('/logout')}}"   class="waves-effect waves-blue btn-flat m-b-xs">Click to logout</a>
+         
+          @endif
         <div class="col s12 m12 l12">
             <div class="card">
                 <div class="card-content">
                     <div id='print'>
                         <div id='page1'>    
-                            <table style="" width="882" height="113" border="0" align="left">
-                                <tr>
-                                    <td><img src='{{url("public/assets/images/printout.png")}}' style="width:581px;height:153px;margin-left: 20%;" /> </td
-
-                                </tr>
-                            </table>
+                            <table border='1'>
+                            <tr>
+                                <td>
+                                     <img src='{{url("public/assets/images/logo.png")}}' style="width:100px;height: auto" /> 
+                                        
+                                </td>
+                                <td align='right' style="width:239px">
+                                    <table class='letter'border='1'>
+                                        <tr>
+                                        <p style="font-size:14px">TAKORADI POLYTECHNIC<br/>
+                                            TEL:+233-031-2022917/8<br/>
+                                            EMAIL:info@tpoly.edu.gh<br/>
+                                            P.O.BOX 256,TAKORADI,GHANA
+                                        
+                                        
+                                        </p>
+                                            
+                                        </tr>
+                                        
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr>
                             <center>APPLICATION NUMBER - {{@\Auth::user()->FORM_NO}}  &nbsp;|&nbsp;  APPLICATION TYPE  - {{@\Auth::user()->FORM_TYPE}}</center>
-                            <hr>
+                           
                            <fieldset><legend>BIODATA INFORMATION</legend>
                             <table class='biodata'><tr>
 
@@ -146,69 +177,66 @@ table{
                         </div>
                         <p>&nbsp;&nbsp;</p>
                         <div id='page2'>
-                            <fieldset><legend>OTHER INFORMATION</legend>
-                              <table>
+                               <fieldset><legend>OTHER INFORMATION</legend>
+                             <table>
                                 <tr>
                                     <td>
                                         <table>
                                             <tr>
-                                                <td class="uppercases" ><strong>HOMETOWN:</strong></td>
+                                               <td class="uppercase" ><strong>HOMETOWN:</strong></td>
                                                 <td class="capitalize">{!! strtoupper($student->HOMETOWN) !!}</td>
 
                                             </tr>
                                             <tr>
-                                                <td class="uppercases" style=""><strong>CONTACT ADDRESS</strong></td>
+                                               <td class="uppercase" style=""><strong>POSTAL ADDRESS</strong></td>
                                                 <td class="capitalize">{!! strtoupper($student->ADDRESS) !!}</td>
 
+                                            </tr>
+                                            <tr>
+                                                <td class="uppercase"><strong>HALL</strong></td>
+                                                <td class="capitalize">{!!strtoupper( $student->PREFERED_HALL) !!}</td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                 <td class="uppercase"><strong>MARITAL STATUS</strong></td>
+                                                <td class="capitalize">{!! strtoupper($student->MARITAL_STATUS) !!}</td>
+                                               
                                             </tr>
 
                                         </table>
                                     </td>
-                                   
                                     <td>
                                         <table>
                                             <tr>
-                                                <td class="uppercases"  ><strong>RESIDENTIAL ADDRESS:</strong></td>
+                                                  <td class="uppercase"  ><strong>HOMETOWN ADDRESS:</strong></td>
                                                 <td class="capitalize">{!! strtoupper($student->RESIDENTIAL_ADDRESS) !!}</td>
 
                                             </tr>
                                             <tr>
-                                                <td class="uppercases"  ><strong>HOMETOWN REGION</strong></td>
+                                                 <td class="uppercase"  ><strong>HOMETOWN REGION</strong></td>
                                                 <td class="capitalize">{!! strtoupper($student->REGION) !!}</td>
 
                                             </tr>
-                                        </table>
-
-
-                                    </td>
-                                <tr>
-                                    <td>
-                                        <table>
                                             <tr>
-                                                <td class="uppercases"><strong>HALL</strong></td>
-                                                <td class="capitalize">{!!strtoupper( $student->PREFERED_HALL) !!}</td>
-                                                 <td class="uppercases"><strong>RELIGION</strong></td>
+                                                 <td class="uppercase"><strong>RELIGION</strong></td>
                                                 <td class="capitalize">{!! strtoupper($student->RELIGION) !!}</td>
 
-
+                                                
                                             </tr>
                                             <tr>
-                                                <td class="uppercases"><strong>MARITAL STATUS</strong></td>
-                                                <td class="capitalize">{!! strtoupper($student->MARITAL_STATUS) !!}</td>
-                                                <td class="uppercases"><strong>NATIONALITY</strong></td>
+                                                 <td class="uppercase"><strong>NATIONALITY</strong></td>
                                                 <td class="capitalize">{!! strtoupper($student->COUNTRY )!!}</td>
 
                                             </tr>
-                                             
+
                                         </table>
                                     </td>
-                                    
                                 </tr>
-                                <tr>
 
-                                </tr>
+
                             </table>
-                            </fieldset>
+                    </fieldset>
+                           
                             <p>&nbsp;&nbsp;</p>
                     <fieldset><legend>GURADIAN INFORMATION</legend>
                              <table>
